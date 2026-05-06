@@ -27,7 +27,11 @@ https://web-production-0b8b34.up.railway.app
 
 
 ## 📂 GitHub Repository
-https://github.com/yugandharmudduluru
+https://github.com/yugandharmudduluru/task-manager
+
+## Admin Login:
+Username: admin
+Password: admin123
 
 ## 👨‍💻 Roles
 
