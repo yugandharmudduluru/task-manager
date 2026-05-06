@@ -30,8 +30,8 @@ https://web-production-0b8b34.up.railway.app
 https://github.com/yugandharmudduluru/task-manager
 
 ## Admin Login:
-Username: admin
-Password: admin123
+- Username: admin
+- Password: admin123
 
 ## 👨‍💻 Roles
 
