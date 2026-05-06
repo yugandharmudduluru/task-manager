@@ -190,18 +190,31 @@ def tasks(request):
 # ======================
 # 🔄 UPDATE TASK
 # ======================
+@login_required
 def update_task_status(request, task_id):
     task = get_object_or_404(Task, id=task_id)
 
+    # 🔐 Permission check
     if task.assigned_to != request.user:
         return redirect("tasks")
 
     if request.method == "POST":
-        task.status = request.POST.get("status")
+        status = request.POST.get("status")
+
+        # 🛑 Prevent None or empty value
+        if not status:
+            return render(request, "update_task.html", {
+                "task": task,
+                "error": "Status is required"
+            })
+
+        task.status = status
         task.save()
         return redirect("tasks")
 
+    # ✅ GET request → show form
     return render(request, "update_task.html", {"task": task})
+
 
 
 # ======================

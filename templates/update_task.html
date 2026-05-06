@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Update Task</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Status:</label>
+    <select name="status">
+        <option value="TODO">Todo</option>
+        <option value="IN_PROGRESS">In Progress</option>
+        <option value="DONE">Completed</option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Update</button>
+</form>
+
+{% endblock %}
