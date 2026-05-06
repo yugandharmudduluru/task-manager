@@ -31,7 +31,7 @@ https://github.com/yugandharmudduluru/task-manager
 
 ## Admin Login:
 - Username: admin
-- Password: admin123
+- Password: admin
 
 ## 👨‍💻 Roles
 
