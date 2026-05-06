@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="center-box">
+
+<form method="POST" id="taskForm">
+    {% csrf_token %}
+
+    <h2>Create Task</h2>
+
+    {% if error %}
+        <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    <!-- TITLE -->
+    <label>Title</label>
+    <input type="text" name="title" id="title" placeholder="Enter title" required>
+
+    <!-- DESCRIPTION -->
+    <label>Description</label>
+    <textarea name="description" id="description" required></textarea>
+
+    <!-- PROJECT -->
+    <label>Project</label>
+    <select name="project" id="project" required onchange="loadMembers()">
+        <option value="">-- Select Project --</option>
+        {% for project in projects %}
+            <option value="{{ project.id }}">{{ project.name }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- ASSIGN USER -->
+    <label>Assign To</label>
+    <select name="assigned_to" required>
+        <option value="">-- Select Member --</option>
+
+        {% for user in users %}
+            <option value="{{ user.id }}">
+                {{ user.username }}
+            </option>
+        {% endfor %}
+
+    </select>
+
+    <!-- STATUS -->
+    <label>Status</label>
+    <select name="status">
+        <option value="TODO">To Do</option>
+        <option value="IN_PROGRESS">In Progress</option>
+        <option value="DONE">Done</option>
+    </select>
+
+    <!-- DUE DATE -->
+    <label>Due Date</label>
+    <input type="date" name="due_date" id="due_date" required>
+
+    <button type="submit" id="submitBtn">Create Task</button>
+
+</form>
+
+</div>
+
+<!-- JS -->
+<script>
+const projectMembers = {
+    {% for project in projects %}
+        "{{ project.id }}": [
+            {% for member in project.members.all %}
+                {% if member.user %}
+                    {id: "{{ member.user.id }}", name: "{{ member.user.username }}"},
+                {% else %}
+                    {id: "{{ member.id }}", name: "{{ member.username }}"},
+                {% endif %}
+            {% endfor %}
+        ],
+    {% endfor %}
+};
+
+function loadMembers() {
+    const projectId = document.getElementById("project").value;
+    const userSelect = document.getElementById("assigned_to");
+
+    userSelect.innerHTML = '<option value="">-- Select Member --</option>';
+
+    if (projectMembers[projectId]) {
+        projectMembers[projectId].forEach(user => {
+            userSelect.innerHTML += `<option value="${user.id}">${user.name}</option>`;
+        });
+    }
+}
+
+// Auto-load if only one project
+window.onload = function() {
+    const projectSelect = document.getElementById("project");
+    if (projectSelect.options.length === 2) {
+        projectSelect.selectedIndex = 1;
+        loadMembers();
+    }
+};
+</script>
+
+<!-- VALIDATION -->
+<script>
+document.getElementById("taskForm").addEventListener("submit", function(e) {
+
+    const title = document.getElementById("title").value.trim();
+    const dueDate = document.getElementById("due_date").value;
+
+    if (title.length < 3) {
+        e.preventDefault();
+        alert("Title must be at least 3 characters");
+        return;
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    if (dueDate < today) {
+        e.preventDefault();
+        alert("Due date cannot be in the past");
+        return;
+    }
+
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("submitBtn").innerText = "Creating...";
+});
+</script>
+
+{% endblock %}

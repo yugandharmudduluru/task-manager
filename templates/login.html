@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="center-box">
+
+    
+<form method="POST">
+    {% csrf_token %}
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color: green;">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <h2>Login</h2>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <label>Username</label>
+    <input type="text" name="username" placeholder="Enter username" required>
+
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Enter password" required>
+
+    <button type="submit">Login</button>
+
+    <p style="margin-top:10px;">
+        Don't have an account?
+        <a href="{% url 'signup' %}">Signup</a>
+    </p>
+
+</form>
+
+</div>
+
+{% endblock %}

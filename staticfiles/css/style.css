@@ -1,0 +1,258 @@
+/* ======================
+   GLOBAL
+====================== */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #333;
+}
+
+/* ======================
+   NAVBAR
+====================== */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    padding: 15px 25px;
+    color: white;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.nav-links a {
+    color: #ecf0f1;
+    margin-left: 15px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    color: #1abc9c;
+}
+
+.logout {
+    color: #e74c3c;
+}
+
+/* ======================
+   CONTAINER
+====================== */
+.container {
+    padding: 30px;
+}
+
+/* ======================
+   CARD
+====================== */
+.card {
+    background: white;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* ======================
+   FORM
+====================== */
+form {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 320px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* ======================
+   BUTTON
+====================== */
+button {
+    background: linear-gradient(45deg, #1abc9c, #16a085);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* ======================
+   CENTER BOX
+====================== */
+.center-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+/* ======================
+   LIST
+====================== */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: white;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+/* ======================
+   STATUS COLORS
+====================== */
+.status-TODO {
+    color: orange;
+    font-weight: bold;
+}
+
+.status-IN_PROGRESS {
+    color: #3498db;
+    font-weight: bold;
+}
+
+.status-DONE {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+/* ======================
+   DASHBOARD GRID
+====================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.count {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.done {
+    color: #2ecc71;
+}
+
+.pending {
+    color: #f39c12;
+}
+
+.overdue {
+    color: #e74c3c;
+}
+
+.card h3 {
+    margin: 0;
+}
+
+.card p {
+    margin: 10px 0 0;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.count {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.done { color: green; }
+.pending { color: orange; }
+.overdue { color: red; }
+
+.task-list {
+    margin-top: 10px;
+}
+
+.task-item {
+    background: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.task-meta {
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.multi-select {
+    position: relative;
+    width: 100%;
+}
+
+.select-box {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.checkbox-dropdown {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.checkbox-dropdown label {
+    display: block;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.checkbox-dropdown label:hover {
+    background: #f0f0f0;
+}

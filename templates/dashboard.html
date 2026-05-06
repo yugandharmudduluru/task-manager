@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="page-title">
+    {% if is_admin %} Admin Dashboard {% else %} My Dashboard {% endif %}
+</h2>
+
+<!-- ================= ADMIN DASHBOARD ================= -->
+{% if is_admin %}
+
+<div class="dashboard-grid">
+
+    <div class="card">
+        <h3>Total Projects</h3>
+        <p class="count">{{ total_projects }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Team Members</h3>
+        <p class="count">{{ total_members }}</p>
+    </div>
+
+    <div class="card">
+        <h3>All Tasks</h3>
+        <p class="count">{{ total_tasks }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Completed Tasks</h3>
+        <p class="count done">{{ completed }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Pending Tasks</h3>
+        <p class="count pending">{{ pending }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Overdue Tasks</h3>
+        <p class="count overdue">{{ overdue }}</p>
+    </div>
+
+</div>
+
+{% endif %}
+
+<!-- ================= MEMBER DASHBOARD ================= -->
+{% if not is_admin %}
+
+<div class="dashboard-grid">
+
+    <div class="card">
+        <h3>My Tasks</h3>
+        <p class="count">{{ total_tasks }}</p>
+    </div>
+
+    <div class="card">
+        <h3>My Completed</h3>
+        <p class="count done">{{ completed }}</p>
+    </div>
+
+    <div class="card">
+        <h3>My Pending</h3>
+        <p class="count pending">{{ pending }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Deadlines</h3>
+        <p class="count overdue">{{ overdue }}</p>
+    </div>
+
+</div>
+
+{% endif %}
+
+<!-- ================= EMPTY STATE ================= -->
+{% if total_tasks == 0 %}
+<div class="empty-state">
+
+    {% if is_admin %}
+        <p>🚀 No tasks yet. Start by creating tasks!</p>
+
+        <a href="{% url 'create_task' %}">
+            <button class="primary-btn">+ Create Task</button>
+        </a>
+
+    {% else %}
+        <p>📌 No tasks assigned to you yet.</p>
+    {% endif %}
+
+</div>
+{% endif %}
+
+<!-- ================= RECENT TASKS ================= -->
+{% if tasks %}
+<h3 class="section-title">Recent Tasks</h3>
+
+<div class="task-list">
+    {% for task in tasks %}
+        <div class="task-item">
+
+            <div class="task-header">
+                <strong>{{ task.title }}</strong>
+            </div>
+
+            <div class="task-meta">
+
+                <span class="status status-{{ task.status }}">
+                    {{ task.status|title }}
+                </span>
+
+                <span class="due-date">
+                    📅 {{ task.due_date }}
+                </span>
+
+                {% if is_admin %}
+                    <span class="assigned-user">
+                        👤 {{ task.assigned_to.username }}
+                    </span>
+                {% endif %}
+
+            </div>
+
+        </div>
+    {% endfor %}
+</div>
+
+{% endif %}
+
+{% endblock %}

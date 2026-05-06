@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="center-box">
+
+    {% if error %}
+        <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    {% if success %}
+        <div class="alert success">{{ success }}</div>
+    {% endif %}
+
+    <form method="POST" id="projectForm">
+        {% csrf_token %}
+
+        <h2>Create Project</h2>
+
+        <!-- PROJECT NAME -->
+        <label>Project Name</label>
+        <input 
+            type="text"
+            name="name" 
+            id="name"
+            placeholder="Enter project name"
+            maxlength="100"
+            required
+        >
+
+        <!-- DESCRIPTION -->
+        <label>Description</label>
+        <textarea 
+            name="description" 
+            id="description"
+            placeholder="Enter description (optional)"
+            maxlength="500"
+        ></textarea>
+
+        <!-- MEMBERS -->
+        <!-- MEMBERS -->
+        <label>Select Members</label>
+
+        <div class="multi-select">
+
+            <!-- Dropdown button -->
+            <div class="select-box" onclick="toggleDropdown()">
+                <span id="selectedText">Select Members ▼</span>
+            </div>
+
+            <!-- Dropdown list -->
+            <div class="checkbox-dropdown" id="dropdownList">
+
+                {% for user in users %}
+                    {% if user != request.user %}
+                        <label>
+                            <input 
+                                type="checkbox" 
+                                name="members" 
+                                value="{{ user.id }}" 
+                                onchange="updateSelected()"
+                            >
+                            {{ user.username }}
+                        </label>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+        </div>
+        <br><br>
+
+        <!-- SUBMIT -->
+        <button type="submit" id="submitBtn">Create Project</button>
+
+    </form>
+
+</div>
+
+<!-- CSS -->
+<style>
+.multi-select {
+    position: relative;
+}
+
+.select-box {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.checkbox-dropdown {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.checkbox-dropdown label {
+    display: block;
+    padding: 8px;
+}
+
+.checkbox-dropdown label:hover {
+    background: #f0f0f0;
+}
+</style>
+
+<!-- JS -->
+<script>
+function toggleDropdown() {
+    const dropdown = document.getElementById("dropdownList");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Close dropdown when clicking outside
+window.onclick = function(e) {
+    if (!e.target.closest(".multi-select")) {
+        document.getElementById("dropdownList").style.display = "none";
+    }
+}
+
+// Show selected users
+function updateSelected() {
+    const checkboxes = document.querySelectorAll('input[name="members"]:checked');
+    let names = [];
+
+    checkboxes.forEach(cb => {
+        names.push(cb.parentElement.textContent.trim());
+    });
+
+    document.getElementById("selectedText").innerText =
+        names.length > 0 ? names.join(", ") : "Select Members ▼";
+}
+
+// Form validation
+document.getElementById("projectForm").addEventListener("submit", function(e) {
+
+    const name = document.getElementById("name").value.trim();
+
+    if (name.length < 3) {
+        e.preventDefault();
+        alert("Project name must be at least 3 characters");
+        return;
+    }
+
+    const btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerText = "Creating...";
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="project-header">
+    <h2>{{ project.name }}</h2>
+    <p class="project-desc">{{ project.description }}</p>
+</div>
+
+<!-- ACTION BUTTON -->
+{% if user.profile.role == "Admin" %}
+    <a href="{% url 'create_task' %}?project={{ project.id }}">
+        <button class="primary-btn">+ Add Task</button>
+    </a>
+{% endif %}
+
+<h3 class="section-title">Tasks</h3>
+
+{% if tasks %}
+<div class="task-list">
+
+    {% for task in tasks %}
+        <div class="task-item">
+
+            <div class="task-title">
+                <strong>{{ task.title }}</strong>
+            </div>
+
+            <div class="task-meta">
+                <span>👤 {{ task.assigned_to.username }}</span>
+                <span>📅 {{ task.due_date }}</span>
+            </div>
+
+            <div class="task-status">
+                <span class="status status-{{ task.status }}">
+                    {{ task.status|title }}
+                </span>
+            </div>
+
+            <!-- MEMBER ACTION -->
+            {% if user == task.assigned_to %}
+                <a href="{% url 'update_task_status' task.id %}">
+                    <button class="small-btn">Update Status</button>
+                </a>
+            {% endif %}
+
+            <!-- ADMIN ACTION -->
+            {% if user.profile.role == "Admin" %}
+                <a href="{% url 'delete_task' task.id %}">
+                    <button class="delete-btn">Delete</button>
+                </a>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+
+</div>
+{% else %}
+    <p class="empty-text">No tasks found.</p>
+{% endif %}
+
+{% endblock %}

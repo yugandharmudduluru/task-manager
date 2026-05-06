@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="page-title">Projects</h2>
+
+<!-- CREATE BUTTON -->
+{% if is_admin %}
+    <a href="{% url 'create_project' %}">
+        <button class="primary-btn">+ Create Project</button>
+    </a>
+{% endif %}
+
+<!-- PROJECT LIST -->
+{% if projects %}
+<div class="project-list">
+
+    {% for project in projects %}
+        <div class="project-card">
+
+            <div class="project-header">
+                <a href="{% url 'project_detail' project.id %}">
+                    <h3>{{ project.name }}</h3>
+                </a>
+            </div>
+
+            <p class="project-desc">
+                {{ project.description|default:"No description provided" }}
+            </p>
+
+            <div class="project-meta">
+                <span>👤 {{ project.created_by.username }}</span>
+            </div>
+
+        </div>
+    {% endfor %}
+
+</div>
+{% else %}
+    <p class="empty-text">
+        {% if is_admin %}
+            No projects yet. Create your first project.
+        {% else %}
+            No projects assigned to you.
+        {% endif %}
+    </p>
+{% endif %}
+
+{% endblock %}
